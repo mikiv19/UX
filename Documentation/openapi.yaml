@@ -1,0 +1,170 @@
+openapi: 3.0.0
+info:
+  title: Playlist and Song API
+  version: 1.0.0
+paths:
+  /playlists:
+    get:
+      summary: Get All Playlists
+      description: Get a list of all playlists.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example: |
+                {
+                  "playlists": [
+                    {
+                      "id": 1,
+                      "name": "My Playlist 1"
+                    },
+                    {
+                      "id": 2,
+                      "name": "My Playlist 2"
+                    }
+                  ]
+                }
+    post:
+      summary: Create Playlist
+      description: Create a new playlist.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "New Playlist"
+      responses:
+        '201':
+          description: Playlist created successfully
+        '400':
+          description: Bad request
+
+  /playlist/{id}:
+    get:
+      summary: Get Playlist by ID
+      description: Get a playlist by its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example: |
+                {
+                  "id": 1,
+                  "name": "My Playlist 1"
+                }
+        '404':
+          description: Playlist not found
+    put:
+      summary: Update Playlist
+      description: Update the name of a playlist by its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Updated Playlist Name"
+      responses:
+        '200':
+          description: Playlist updated successfully
+        '404':
+          description: Playlist not found
+    delete:
+      summary: Delete Playlist
+      description: Delete a playlist by its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '204':
+          description: Playlist deleted successfully
+        '404':
+          description: Playlist not found
+
+  /playlist/{playlistId}/songs:
+    get:
+      summary: Get Songs from Playlist
+      description: Get a list of songs from a playlist by its ID.
+      parameters:
+        - name: playlistId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example: |
+                {
+                  "songs": [
+                    {
+                      "id": 1,
+                      "title": "Song 1",
+                      "length": "3:45",
+                      "artist": "Artist 1",
+                      "coverImg": "song1.jpg"
+                    },
+                    {
+                      "id": 2,
+                      "title": "Song 2",
+                      "length": "4:20",
+                      "artist": "Artist 2",
+                      "coverImg": "song2.jpg"
+                    }
+                  ]
+                }
+        '404':
+          description: Playlist not found
+
+  /playlist/{playlistId}/songs/{songId}:
+    delete:
+      summary: Delete Song by ID
+      description: Delete a song by its ID from a playlist.
+      parameters:
+        - name: playlistId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+        - name: songId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '204':
+          description: Song deleted successfully
+        '404':
+          description: Song not found

@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  title: Translation API
+  version: 1.0.0
+paths:
+  /translate:
+    post:
+      summary: Translate Text
+      description: Translate text from one language to another.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                target:
+                  type: string
+                  description: Target language code (e.g., "es" for Spanish)
+                text:
+                  type: string
+                  description: Text to be translated
+      responses:
+        '200':
+          description: Successful translation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  translatedText:
+                    type: string
+                    description: Translated text in the specified language
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
